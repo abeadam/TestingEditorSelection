@@ -38,17 +38,22 @@ YUI().use('node','editor', function(Y) {
 		(function () { 
 			return function() {
 				var inst = editor.getInstance(),
+					currentNode,
 					sel = new inst.EditorSelection();
 
 				// first focus the RTE incase the user focus is else where
 				editor.focus();
 
 				// we would like to move to end of line so we don't miss up what the user wrote
+				// 1 - get the current node the user is on and save it
+				currentNode = sel.anchorNode;
+				// 2 - change the selection to be at the end of the node
+				sel.selectNode(currentNode, true, 1);
 
 				// insert the block
 				editor.execCommand('insertHTML', pastBlock.convertHTMLElementToString(pastBlock.getBlock()));
 				// insert html after the block so we can write more in the RTE
-				editor.execCommand('insertParagraph');
+				//editor.execCommand('insertParagraph');
 		}
 	})(editor));
 });
